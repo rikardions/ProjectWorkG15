@@ -1,0 +1,142 @@
+import React, { useState } from 'react';
+
+import {
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  View,
+  TouchableHighlight,
+} from 'react-native';
+
+import { Stopwatch, Timer } from 'react-native-stopwatch-timer';
+
+const App = () => {
+  const [isTimerStart, setIsTimerStart] = useState(false);
+  const [isStopwatchStart, setIsStopwatchStart] = useState(false);
+  const [timerDuration, setTimerDuration] = useState(60000);
+  const [resetTimer, setResetTimer] = useState(false);
+  const [resetStopwatch, setResetStopwatch] = useState(false);
+
+  return (
+    <SafeAreaView style={styles.container}>
+      <View style={styles.container}>
+        <Text style={styles.title}>
+          Use the stopwatch to track your running time
+        </Text>
+         <Text style={styles.title}>
+          Use the timer for one minute exercises
+        </Text>
+        <View style={styles.sectionStyle}>
+          <Stopwatch
+            laps
+            msecs
+            start={isStopwatchStart}
+            //Start
+            reset={resetStopwatch}
+            //Reset
+            options={options}
+            
+            getTime={(time) => {
+              console.log(time);
+            }}
+          />
+          <TouchableHighlight
+            onPress={() => {
+              setIsStopwatchStart(!isStopwatchStart);
+              setResetStopwatch(false);
+            }}>
+            <Text style={styles.buttonText}>
+              {!isStopwatchStart ? 'START Workout' : 'STOP Workout'}
+            </Text>
+          </TouchableHighlight>
+          <TouchableHighlight
+            onPress={() => {
+              setIsStopwatchStart(false);
+              setResetStopwatch(true);
+            }}>
+            <Text style={styles.buttonText}>END Workout</Text>
+          </TouchableHighlight>
+        </View>
+        <View style={styles.sectionStyle}>
+          <Timer
+            totalDuration={timerDuration}
+            msecs
+            //Time 
+            start={isTimerStart}
+            //Start
+            reset={resetTimer}
+            //Reset
+            options={options}
+           
+            handleFinish={() => {
+              alert('Exercise has ended! Good job!');
+            }}
+            
+            getTime={(time) => {
+              console.log(time);
+            }}
+          />
+          <TouchableHighlight
+            onPress={() => {
+              setIsTimerStart(!isTimerStart);
+              setResetTimer(false);
+            }}>
+            <Text style={styles.buttonText}>
+              {!isTimerStart ? 'START' : 'STOP'}
+            </Text>
+          </TouchableHighlight>
+          <TouchableHighlight
+            onPress={() => {
+              setIsTimerStart(false);
+              setResetTimer(true);
+            }}>
+            <Text style={styles.buttonText}>RESET</Text>
+          </TouchableHighlight>
+        </View>
+      </View>
+    </SafeAreaView>
+  );
+};
+
+export default App;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#F9BB09',
+  },
+  title: {
+    textAlign: 'center',
+    fontSize: 20,
+    fontWeight: 'bold',
+    padding: 20,
+  },
+  sectionStyle: {
+    flex: 1,
+    marginTop: 32,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  buttonText: {
+    fontSize: 21,
+    marginTop: 10,
+  },
+});
+
+const options = {
+  container: {
+    backgroundColor: '#F49FE2',
+    padding: 5,
+    borderRadius: 6,
+    width: 200,
+    alignItems: 'center',
+  },
+  text: {
+    fontSize: 23,
+    color: '#FFF',
+    marginLeft: 7,
+  },
+};
